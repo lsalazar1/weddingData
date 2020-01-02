@@ -24,3 +24,8 @@ class websiteData:
                 self.numGuests += (1 + len(doc['guests']))
 
         return self.numGuests
+    
+    # Counts food items
+    def countFood(self):
+        pass
+
