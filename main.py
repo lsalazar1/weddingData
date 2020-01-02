@@ -21,14 +21,6 @@ class websiteData:
 
         for doc in col:
             if doc['status'] == 'Accept':
-                self.numGuests += 1
-                
-                
-        
+                self.numGuests += (1 + len(doc['guests']))
+
         return self.numGuests
-
-
-# Testing Purposes
-a = websiteData()
-
-print(a.countGuests())
