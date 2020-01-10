@@ -21,15 +21,13 @@ class WebsiteData:
         self.usersCollection = self.database['users']
 
     # Counts guests who have accepted their invitations, as well as their guests
-    def countGuests(self):
+    def getGuests(self):
         profiles = list(self.profileCollection.find())
         users = list(self.usersCollection.find())
         
-        print('--------------------------------------------------------------')
+        print('--------------------------------------------------------------\nGuests\n')
         for rsvp in profiles:
             if rsvp['status'] == 'Accept':
-                self.numOfGuests += (1 + len(rsvp['guests']))
-
                 # Push user's name in guests list
                 for user in users:
                     if rsvp['user'] == user['_id']:
@@ -38,19 +36,19 @@ class WebsiteData:
                 # Push guests' name into guests list as well...
                 for guest in rsvp['guests']:
                     self.guests.append(guest['name'])
-        return self.numOfGuests
+
+        self.removeDups(self.guests, len(self.guests))
     
-    def getGuests(self):
-        totalGuests = self.countGuests()
-        
-        print('Guest List\n')
-        if self.numOfGuests > 0:
-            for guest in self.guests:
-                print(guest)
-        else:
-            print('None')
-        
-        print('\nTotal Number of Guests: ', totalGuests)
+    def removeDups(self, guestList, n):
+        mp = { i : 0 for i in guestList}
+
+        for i in range(n):
+            if mp[guestList[i]] == 0:
+                print(guestList[i], end = "\n")
+                mp[guestList[i]] = 1
+
+        self.numOfGuests = len(guestList)
+        print('\nTotal number of guests: ', self.numOfGuests)
 
     def countFood(self):
         profiles = list(self.profileCollection.find())
