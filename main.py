@@ -5,8 +5,7 @@ if __name__ == '__main__':
 
     data.getGuests()
     data.countFood()
-           
-
+    data.showDuplicates()
 
 
 

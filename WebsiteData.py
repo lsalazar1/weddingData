@@ -3,8 +3,8 @@ import pymongo
 import dns
 
 class WebsiteData:
-    numOfGuests = 0
     guests = []
+    duplicates = []
     
     chicken = 0
     beef = 0
@@ -41,15 +41,24 @@ class WebsiteData:
     
     def removeDups(self, guestList, n):
         mp = { i : 0 for i in guestList}
+        count = 0
 
         for i in range(n):
             if mp[guestList[i]] == 0:
                 print(guestList[i], end = "\n")
+                count += 1
                 mp[guestList[i]] = 1
+            else:
+                self.duplicates.append(guestList[i])
 
-        self.numOfGuests = len(guestList)
-        print('\nTotal number of guests: ', self.numOfGuests)
-
+        print('\nTotal number of guests: ', count)
+    
+    # Show all duplicate names found in database
+    def showDuplicates(self):
+        print('\n**Duplicate names in DB**')
+        for name in self.duplicates:
+            print(name)
+    
     def countFood(self):
         profiles = list(self.profileCollection.find())
 
@@ -83,4 +92,3 @@ class WebsiteData:
         print('Fish: ', self.fish)
         print('Vegetarian: ', self.vegetarian)
         print('Kids\'s meal: ', self.kidsMeal)
-
